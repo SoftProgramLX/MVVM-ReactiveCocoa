@@ -1,0 +1,62 @@
+//
+//  PrefixHeader.pch
+//  TestRAC
+//
+//  Created by 李旭 on 16/9/1.
+//  Copyright © 2016年 LX. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+//系统与lib头文件
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <AFNetworking/AFNetworking.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+
+//自定义头文件
+#import "AFNetWorkHelp.h"
+#import "UIView+Extension.h"
+#import "NSArray+Extension.h"
+#import "UIImage+Extension.h"
+
+
+// 屏幕宽与高
+#define ScreenWidth  ([[UIScreen mainScreen] bounds].size.width)
+#define ScreenHeight ([[UIScreen mainScreen] bounds].size.height)
+
+#define NotificationCenter [NSNotificationCenter defaultCenter]
+#define UserDefaults [NSUserDefaults standardUserDefaults]
+
+#define WeakSelf(type)  __weak typeof(type) weak##type = type;
+#define StrongSelf(type)  __strong typeof(type) type = weak##type;
+
+
+#ifdef DEBUG
+//带颜色的log
+#define XCODE_COLORS_ESCAPE @"\033["
+#define XCODE_COLORS_RESET  XCODE_COLORS_ESCAPE @";"
+#define LogBlue(frmt, ...)  NSLog((XCODE_COLORS_ESCAPE @"fg0,0,255;" frmt XCODE_COLORS_RESET), ##__VA_ARGS__)
+#else
+#define LogBlue(frmt, ...)
+#endif
+
+//代码片段
+#define DEFINE_SINGLETON_FOR_CLASS(classname) \
+\
+static classname *shared##classname = nil; \
+\
++ (classname *)shared##classname \
+{ \
+static dispatch_once_t onceToken; \
+dispatch_once(&onceToken, ^{ \
+shared##classname = [[self alloc] init]; \
+}); \
+return shared##classname; \
+} \
+
+#endif /* PrefixHeader_pch */
+
+
